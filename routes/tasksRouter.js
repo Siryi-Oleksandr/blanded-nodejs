@@ -7,14 +7,19 @@ const {
   deleteTask,
 } = require("../controllers/tasksControllers");
 const router = express.Router();
+const validateBody = require("../utils/validateBody");
+const {
+  createTaskValidationSchema,
+  updateTaskValidationSchema,
+} = require("../utils/validation/taskValidationSchemas");
 
 router.get("/", getTasks);
 
 router.get("/:id", getTaskById);
 
-router.post("/", createTask);
+router.post("/", validateBody(createTaskValidationSchema), createTask);
 
-router.patch("/:id", updateTask);
+router.patch("/:id", validateBody(updateTaskValidationSchema), updateTask);
 
 router.delete("/:id", deleteTask);
 
